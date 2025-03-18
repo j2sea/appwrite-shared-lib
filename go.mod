@@ -1,4 +1,4 @@
-module github.com/j2sea/shared-lib
+module github.com/j2sea/appwrite-shared-lib
 
 go 1.23.0
 
