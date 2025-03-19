@@ -29,16 +29,13 @@ const (
 
 // Predefined error responses
 var (
-	ErrInvalidParams = NewResponse("Invalid parameters", StatusBadRequest, CodeInvalidParams)
-	ErrUnauthorized  = NewResponse("Unauthorized access", StatusUnauthorized, CodeUnauthorized)
-	ErrForbidden     = NewResponse("Access forbidden", StatusForbidden, CodeForbidden)
-	ErrNotFound      = NewResponse("Resource not found", StatusNotFound, CodeNotFound)
-	ErrInternal      = NewResponse("Internal server error", StatusInternalError, CodeInternalError)
-	ErrDatabase      = NewResponse("Database error", StatusInternalError, CodeDatabaseError)
-	ErrDuplicate     = NewResponse("Duplicate entry", StatusConflict, CodeDuplicateEntry)
-	ErrValidation    = NewResponse("Validation failed", StatusBadRequest, CodeValidationError)
-	ErrService       = NewResponse("Service unavailable", StatusServiceUnavailable, CodeServiceUnavailable)
+	ErrInvalidParams = NewResponse("Invalid parameters", CodeInvalidParams, nil)
+	ErrUnauthorized  = NewResponse("Unauthorized access", CodeUnauthorized, nil)
+	ErrForbidden     = NewResponse("Access forbidden", CodeForbidden, nil)
+	ErrNotFound      = NewResponse("Resource not found", CodeNotFound, nil)
+	ErrInternal      = NewResponse("Internal server error", CodeInternalError, nil)
+	ErrDatabase      = NewResponse("Database error", CodeDatabaseError, nil)
+	ErrDuplicate     = NewResponse("Duplicate entry", CodeDuplicateEntry, nil)
+	ErrValidation    = NewResponse("Validation failed", CodeValidationError, nil)
+	ErrService       = NewResponse("Service unavailable", CodeServiceUnavailable, nil)
 )
-
-// Success response
-var SuccessResponse = NewResponse("Success", StatusOK, CodeSuccess)
