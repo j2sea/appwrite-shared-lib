@@ -1,6 +1,7 @@
 package response
 
 import (
+	"encoding/json"
 	"regexp"
 	"strings"
 
@@ -13,6 +14,7 @@ type RouteContext struct {
 	RouteParams map[string]string
 }
 
+// Route 路由信息
 type Route struct {
 	pattern    string
 	regex      *regexp.Regexp
@@ -20,6 +22,7 @@ type Route struct {
 	handler    func(c *RouteContext) openruntimes.Response
 }
 
+// Router 路由器
 type Router struct {
 	// method -> []Route
 	routes map[string][]Route
@@ -27,6 +30,13 @@ type Router struct {
 
 func NewRouter() *Router {
 	return &Router{routes: make(map[string][]Route)}
+}
+
+func NewRouteContext(ctx *openruntimes.Context) *RouteContext {
+	return &RouteContext{
+		Context:     ctx,
+		RouteParams: make(map[string]string),
+	}
 }
 
 func (r *Router) AddRoute(pattern string, method string, handler func(c *RouteContext) openruntimes.Response) {
@@ -102,3 +112,67 @@ func (r *Router) Handle(ctx *openruntimes.Context) openruntimes.Response {
 func (c *RouteContext) GetParam(name string) string {
 	return c.RouteParams[name]
 }
+
+// 获取请求体
+func (c *RouteContext) GetBodyBinary() []byte {
+	return c.Context.Req.BodyBinary()
+}
+
+// 获取请求体
+func (c *RouteContext) GetJsonBody() map[string]interface{} {
+	var result map[string]interface{}
+	json.Unmarshal(c.Context.Req.BodyBinary(), &result)
+	return result
+}
+
+// 获取请求体
+func (c *RouteContext) GetBody(key string) string {
+	bodyMap := c.GetJsonBody()
+	return bodyMap[key].(string)
+}
+
+// 获取请求头
+func (c *RouteContext) GetHeaders() map[string]string {
+	return c.Context.Req.Headers
+}
+
+// 获取请求头
+func (c *RouteContext) GetHeader(key string) string {
+	return c.Context.Req.Headers[key]
+}
+
+// 获取请求方法
+func (c *RouteContext) GetMethod() string {
+	return c.Context.Req.Method
+}
+
+// 获取请求URL
+func (c *RouteContext) GetUrl() string {
+	return c.Context.Req.Url
+}
+
+// 获取请求端口
+func (c *RouteContext) GetPort() int {
+	return c.Context.Req.Port
+}
+
+// 获取请求协议
+func (c *RouteContext) GetScheme() string {
+	return c.Context.Req.Scheme
+}
+
+// 获取请求主机
+func (c *RouteContext) GetHost() string {
+	return c.Context.Req.Host
+}
+
+// 获取请求参数
+func (c *RouteContext) GetQueryString() string {
+	return c.Context.Req.QueryString
+}
+
+// 获取请求参数
+func (c *RouteContext) GetQuery() map[string]string {
+	return c.Context.Req.Query
+}
+
