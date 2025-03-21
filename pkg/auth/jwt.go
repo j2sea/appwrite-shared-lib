@@ -9,7 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
-var secretKey = os.Getenv("JWT_SECRET_KEY")
+var secretKey = []byte(os.Getenv("JWT_SECRET_KEY"))
 
 type Claims struct {
 	UserID string `json:"user_id"`
@@ -41,7 +41,7 @@ func ParseJWT(tokenString string) (*Claims, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("unexpected signing method")
 		}
-		return []byte(secretKey), nil
+		return secretKey, nil
 	})
 	if err != nil {
 		return nil, err
