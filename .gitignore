@@ -1,0 +1,38 @@
+# Go相关
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+go.sum
+
+# 临时文件
+*.tmp
+*.temp
+*.log
+
+# IDE配置
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# Appwrite
+.env
+.env.local
+.env.*.local
+.appwrite
+
+# 编译输出
+bin/
+dist/
+build/
+
+# 依赖目录
+vendor/ 
