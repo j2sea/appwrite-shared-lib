@@ -10,6 +10,12 @@ type Response struct {
 	Data    interface{} `json:"data,omitempty"`
 }
 
+type ListResponse struct {
+	Message string      `json:"message"`
+	Code    int         `json:"code"`
+	Data    []map[string]any `json:"data,omitempty"`
+}
+
 func NewResponse(message string, code int, data interface{}) *Response {
 	return &Response{
 		Message: message,
@@ -18,8 +24,21 @@ func NewResponse(message string, code int, data interface{}) *Response {
 	}
 }
 
+func NewListResponse(message string, code int, data []map[string]any) *ListResponse {
+	return &ListResponse{
+		Message: message,
+		Code:    code,
+		Data:    data,
+	}
+}
+
 func NewJsonResponse(Context *openruntimes.Context, data interface{}) openruntimes.Response {
 	response := NewResponse("Success", CodeSuccess, data)
+	return Context.Res.Json(response, Context.Res.WithStatusCode(StatusOK))
+}
+
+func NewJsonListResponse(Context *openruntimes.Context, data []map[string]any) openruntimes.Response {
+	response := NewListResponse("Success", CodeSuccess, data)
 	return Context.Res.Json(response, Context.Res.WithStatusCode(StatusOK))
 }
 
